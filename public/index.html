@@ -1,0 +1,321 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CPU Pipeline Studio</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1>CPU Pipeline Studio</h1>
+        <p>Explore how instructions move through a CPU pipeline</p>
+    </header>
+
+    <div class="theme-control">
+        <label for="themeSelect">🎨 Choose Theme:</label>
+        <select id="themeSelect">
+            <option value="blue">Ocean Blue</option>
+            <option value="purple">Purple</option>
+            <option value="green">Emerald Green</option>
+            <option value="sunset">Sunset Orange</option>
+            <option value="dark">Dark Mode</option>
+        </select>
+    </div>
+
+    <main>
+
+        <!-- Introduction -->
+        <section class="intro">
+            <h2>What is Pipelining?</h2>
+            <p>
+                Pipelining allows a CPU to process multiple instructions
+                by overlapping different stages of instruction execution
+                to reduce overall processing time.
+            </p>
+        </section>
+
+        <!-- Pipelining vs Non-Pipelining -->
+        <section class="card">
+            <h2>⚡ Pipelining vs Non-Pipelining</h2>
+
+            <h3>🐢 Non-Pipelining</h3>
+            <p>
+                In non-pipelining, one instruction completes all its stages
+                before the next instruction begins. This increases the total
+                execution time.
+            </p>
+
+            <h3>🚀 Pipelining</h3>
+            <p>
+                Pipelining allows multiple instructions to be processed
+                simultaneously by overlapping different stages of execution,
+                reducing the overall processing time.
+            </p>
+        </section>
+
+        <!-- Pipeline Animation -->
+        <section class="pipeline-section">
+            <h2>Five-Stage CPU Pipeline PENTIUM 🌟</h2>
+            <p>Each instruction passes through these stages:</p>
+
+            <div class="stages">
+                <div class="stage">
+                    📥 Fetch
+                    <span>Instruction Fetch</span>
+                </div>
+                <div class="stage">
+                    🔍 Decode
+                    <span>Instruction Decode</span>
+                </div>
+                <div class="stage">
+                    📍 AG
+                    <span>Address Generation</span>
+                </div>
+                <div class="stage">
+                    ⚙️ Execute
+                    <span>Perform Operation</span>
+                </div>
+                <div class="stage">
+                    💾 Store
+                    <span>Store Result</span>
+                </div>
+            </div>
+
+            <button id="nextButton">Next Cycle</button>
+            <button id="resetButton">Reset</button>
+
+            <p id="cycleDisplay">Current Cycle: 0</p>
+            <div id="pipelineDisplay"></div>
+        </section>
+
+        <!-- Performance Calculator -->
+        <section class="calculator">
+            <h2>Pipeline Performance Calculator</h2>
+
+            <label for="instructions">Number of instructions:</label>
+            <input
+                type="number"
+                id="instructions"
+                min="1"
+                value="5"
+            >
+
+            <label for="stagesCount">Number of stages:</label>
+            <input
+                type="number"
+                id="stagesCount"
+                min="1"
+                value="5"
+            >
+
+            <button id="calculateButton">Calculate</button>
+
+            <div id="results">
+                <p>Enter values and click Calculate.</p>
+            </div>
+        </section>
+
+        <!-- Pipelining Concepts -->
+        <section class="card">
+            <h2>Understanding CPU Pipelining</h2>
+
+            <p>
+                CPU pipelining divides instruction execution into stages,
+                allowing multiple instructions to be processed simultaneously
+                at different stages. This results in faster processing.
+            </p>
+
+            <h3>Pipeline Stages</h3>
+            <ul>
+                <li>Fetch – Instruction Fetch</li>
+                <li>Decode – Instruction Decode</li>
+                <li>AG – Address Generation</li>
+                <li>Execute – Perform Operation</li>
+                <li>Store – Store Result</li>
+            </ul>
+
+            <h3>Performance Formulas</h3>
+            <p>Non-pipelined cycles = Instructions × Stages</p>
+            <p>Ideal pipelined cycles = Instructions + Stages − 1</p>
+            <p>Speedup = Non-pipelined cycles ÷ Pipelined cycles</p>
+        </section>
+
+        <!-- Data Hazard Simulator -->
+        <section class="card">
+            <h2>⚠️ Data Hazard Simulator</h2>
+
+            <p>
+                Explore how dependent instructions can cause a
+                Read After Write (RAW) data hazard.
+            </p>
+
+            <p>
+                <strong>Assumption:</strong> Five-stage pipeline,
+                no forwarding, and register write-back early enough
+                for a read in the same cycle.
+            </p>
+
+            <div class="hazard-inputs">
+                <div>
+                    <label for="instruction1">Instruction 1:</label>
+                    <input
+                        type="text"
+                        id="instruction1"
+                        placeholder="Example: ADD R1, R2, R3"
+                    >
+                </div>
+
+                <div>
+                    <label for="instruction2">Instruction 2:</label>
+                    <input
+                        type="text"
+                        id="instruction2"
+                        placeholder="Example: SUB R4, R1, R5"
+                    >
+                </div>
+            </div>
+
+            <button id="hazardButton">Analyze Data Hazard</button>
+            <div id="hazardResults"></div>
+        </section>
+
+        <!-- Control Hazard Simulator -->
+        <section class="card">
+            <h2>🔀 Control Hazard Simulator</h2>
+
+            <p>
+                Explore how branch instructions can interrupt the normal
+                flow of a CPU pipeline.
+            </p>
+
+            <label for="branchScenario">Choose a scenario:</label>
+            <select id="branchScenario">
+                <option value="taken">Branch taken</option>
+                <option value="notTaken">Branch not taken</option>
+            </select>
+
+            <button id="branchButton">Simulate Branch</button>
+            <div id="branchResults"></div>
+        </section>
+
+        <!-- Structural Hazard Simulator -->
+        <section class="card">
+            <h2>🔧 Structural Hazard Simulator</h2>
+
+            <p>
+                A structural hazard occurs when multiple instructions
+                compete for the same hardware resource.
+            </p>
+
+            <label for="resourceScenario">Choose a scenario:</label>
+            <select id="resourceScenario">
+                <option value="shared">
+                    Shared memory for instructions and data
+                </option>
+                <option value="separate">
+                    Separate instruction and data memories
+                </option>
+            </select>
+
+            <button id="resourceButton">
+                Analyze Structural Hazard
+            </button>
+            <div id="resourceResults"></div>
+        </section>
+
+        <!-- Pipeline Comparison -->
+        <section class="card">
+            <h2>🧪 My Example: Pipeline Comparison</h2>
+
+            <p>
+                Change the number of instructions to compare sequential
+                execution with pipelined execution.
+            </p>
+
+            <label for="compareInstructions">
+                Number of instructions:
+            </label>
+            <input
+                type="number"
+                id="compareInstructions"
+                min="1"
+                max="50"
+                value="5"
+            >
+
+            <button id="compareButton">Compare Execution</button>
+            <div id="compareResults"></div>
+        </section>
+
+        <!-- Experiment -->
+        <section class="card">
+            <h2>🔬 My Experiment</h2>
+
+            <p>
+                Change the instruction count, observe the results,
+                and record your own conclusion.
+            </p>
+
+            <label for="experimentInstructions">
+                Number of instructions:
+            </label>
+            <input
+                type="number"
+                id="experimentInstructions"
+                min="1"
+                max="50"
+                value="5"
+            >
+
+            <button id="experimentButton">Run Experiment</button>
+            <div id="experimentResults"></div>
+
+            <label for="experimentNotes">My observation:</label>
+            <textarea
+                id="experimentNotes"
+                rows="4"
+                placeholder="Write what you observed and why..."
+            ></textarea>
+
+            <button id="saveObservationButton">Add Observation</button>
+            <div id="observationList"></div>
+        </section>
+
+        <!-- Pipeline Timing Diagram -->
+        <section class="card">
+            <h2>📊 My Pipeline Timing Diagram</h2>
+
+            <p>
+                View how instructions move through Fetch, Decode,
+                Address Generation, Execute and Store over successive
+                clock cycles.
+            </p>
+
+            <label for="timingInstructions">
+                Number of instructions:
+            </label>
+            <input
+                type="number"
+                id="timingInstructions"
+                min="1"
+                value="4"
+            >
+
+            <button id="timingButton">Generate Timing Diagram</button>
+            <div id="timingResults"></div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>
+            CPU Pipeline Studio | Computer Organization and Architecture
+        </p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
