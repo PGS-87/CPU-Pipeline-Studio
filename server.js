@@ -1,16 +1,16 @@
 
 const express = require("express");
+const path = require("path");
 
 const app = express();
-const PORT = 3000;
 
-// Allow the server to read JSON data
 app.use(express.json());
+app.use(express.static(path.join(__dirname, "public")));
 
-// Serve our existing frontend files
-app.use(express.static(__dirname));
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "public", "index.html"));
+});
 
-// Backend API for pipeline performance calculation
 app.post("/api/calculate", (req, res) => {
     const { instructions, stages } = req.body;
 
@@ -39,6 +39,4 @@ app.post("/api/calculate", (req, res) => {
     });
 });
 
-app.listen(PORT, () => {
-    console.log(`CPU Pipeline Studio running at http://localhost:${PORT}`);
-});
+module.exports = app;
